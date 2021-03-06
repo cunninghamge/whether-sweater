@@ -36,7 +36,7 @@ RSpec.describe LocationService do
 
     it 'can get the coordinates of an international city' do
       VCR.use_cassette('berlin') do
-        city = 'berlin,de'
+        city = 'berlin,deu'
         lat = 52.517037
         lng = 13.38886
         data = LocationService.call(city)
