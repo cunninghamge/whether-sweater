@@ -16,6 +16,8 @@ class WeatherSnapshot
 
   def initialize(data, timezone_offset, datetime)
     set_datetime(data[:dt], timezone_offset, datetime)
+    @conditions = data[:weather][0][:description]
+    @icon = data[:weather][0][:icon]
     @sunrise = local_time(data[:sunrise], timezone_offset) if data[:sunrise]
     @sunset = local_time(data[:sunset], timezone_offset) if data[:sunset]
     @temperature = data[:temp] if data[:temp]
@@ -25,17 +27,13 @@ class WeatherSnapshot
     @humidity = data[:humidity] if data[:feels_like]
     @uvi = data[:uvi] if data[:uvi]
     @visibility = data[:visibility] if data[:visibility]
-    @conditions = data[:weather][0][:description]
-    @icon = data[:weather][0][:icon]
   end
 
   def set_datetime(dt, offset, datetime_opt)
-    if datetime_opt == :datetime
-      @datetime = local_time(dt, offset)
-    elsif datetime_opt == :date
-      @date = local_time(dt, offset).split[0]
-    elsif datetime_opt == :time
-      @time = local_time(dt, offset).split[1]
+    case datetime_opt
+    when :datetime then @datetime = local_time(dt, offset)
+    when :date then @date = local_time(dt, offset).split[0]
+    when :time then @time = local_time(dt, offset).split[1]
     end
   end
 
