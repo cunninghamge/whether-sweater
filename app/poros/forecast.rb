@@ -14,7 +14,8 @@ class Forecast
 
   def daily(data)
     data.map do |day|
-      fields = day.slice(:dt, :sunrise, :sunset, :weather).merge(day[:temp].slice(:min, :max))
+      high_low = { min_temp: day[:temp][:min], max_temp: day[:temp][:max] }
+      fields = day.slice(:dt, :sunrise, :sunset, :weather).merge(high_low)
       WeatherSnapshot.new(fields, @timezone_offset, :date)
     end
   end

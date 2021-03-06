@@ -53,8 +53,8 @@ RSpec.describe WeatherSnapshot do
       dt: 1615050000,
       sunrise: 1615029583,
       sunset: 1615070808,
-      min: 4.28,
-      max: 21.49,
+      min_temp: 4.28,
+      max_temp: 21.49,
       weather: [
         {
           id: 804,
@@ -71,8 +71,8 @@ RSpec.describe WeatherSnapshot do
       date: local_time(data[:dt], tz_offset).split[0],
       sunrise: local_time(data[:sunrise], tz_offset),
       sunset: local_time(data[:sunset], tz_offset),
-      min_temp: data[:min],
-      max_temp: data[:max],
+      min_temp: data[:min_temp],
+      max_temp: data[:max_temp],
       conditions: data[:weather][0][:description],
       icon: data[:weather][0][:icon]
     )
