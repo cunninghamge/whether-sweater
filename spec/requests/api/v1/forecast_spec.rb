@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe 'forecast request' do
   it 'gets weather for a specified location' do
     headers = {'CONTENT_TYPE' => 'application/json', 'ACCEPT' => 'application/json'}
-    get '/api/v1/forecast?location=denver,co', headers: headers
+    get '/api/v1/forecast?location=rutland,vt', headers: headers
 
     expect(response.status).to eq(200)
     data = JSON.parse(response.body, symbolize_names: true)
@@ -66,7 +66,7 @@ RSpec.describe 'forecast request' do
   describe 'returns an error if the headers are missing' do
     it 'content type' do
       headers = {'ACCEPT' => 'application/json'}
-      get '/api/v1/forecast?location=denver,co', headers: headers
+      get '/api/v1/forecast?location=rutland,vt', headers: headers
 
       expect(response.status).to eq(400)
       errors = JSON.parse(response.body, symbolize_names: true)
@@ -79,7 +79,7 @@ RSpec.describe 'forecast request' do
 
     it 'accept' do
       headers = {'CONTENT_TYPE' => 'application/json'}
-      get '/api/v1/forecast?location=denver,co', headers: headers
+      get '/api/v1/forecast?location=rutland,vt', headers: headers
 
       expect(response.status).to eq(400)
       errors = JSON.parse(response.body, symbolize_names: true)
@@ -117,11 +117,24 @@ RSpec.describe 'forecast request' do
     expect(errors[:errors][0]).to be_a(String)
   end
 
+  it 'returns an error with a message if the location is formatted incorrectly' do
+    headers = {'CONTENT_TYPE' => 'application/json', 'ACCEPT' => 'application/json'}
+    get '/api/v1/forecast?location=rutland,%20vt', headers: headers
+
+    expect(response.status).to eq(400)
+    errors = JSON.parse(response.body, symbolize_names: true)
+
+    expect(errors).to be_a(Hash)
+    expect(errors.keys).to match_array(%i[errors])
+    check_hash_structure(errors, :errors, Array)
+    expect(errors[:errors][0]).to be_a(String)
+  end
+
   it 'returns an error with a message if the location can\'t be found' do
     headers = {'CONTENT_TYPE' => 'application/json', 'ACCEPT' => 'application/json'}
     get '/api/v1/forecast?location=NOTAREALPLACE', headers: headers
 
-    expect(response.status).to eq(400)
+    expect(response.status).to eq(404)
     errors = JSON.parse(response.body, symbolize_names: true)
 
     expect(errors).to be_a(Hash)
@@ -133,9 +146,9 @@ RSpec.describe 'forecast request' do
   it 'returns an error with a message if the external maps API call is unsuccessful' do
     stub_request(:get, 'map')
     headers = {'CONTENT_TYPE' => 'application/json', 'ACCEPT' => 'application/json'}
-    get '/api/v1/forecast?location=denver,co', headers: headers
+    get '/api/v1/forecast?location=rutland,vt', headers: headers
 
-    expect(response.status).to eq(400)
+    expect(response.status).to eq(503)
     errors = JSON.parse(response.body, symbolize_names: true)
 
     expect(errors).to be_a(Hash)
@@ -147,9 +160,9 @@ RSpec.describe 'forecast request' do
   it 'returns an error with a message if the external maps weather call is unsuccessful' do
     stub_request(:get, 'weather')
     headers = {'CONTENT_TYPE' => 'application/json', 'ACCEPT' => 'application/json'}
-    get '/api/v1/forecast?location=denver,co', headers: headers
+    get '/api/v1/forecast?location=rutland,vt', headers: headers
 
-    expect(response.status).to eq(400)
+    expect(response.status).to eq(503)
     errors = JSON.parse(response.body, symbolize_names: true)
 
     expect(errors).to be_a(Hash)
