@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe WeatherService do
   describe '.call' do
     it 'can get weather using a set of coordinates' do
-      VCR.use_cassette('rutland_weather') do
+      VCR.use_cassette('rutland') do
         lat = 43.610633
         lng = -72.972688
 
