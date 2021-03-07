@@ -8,6 +8,7 @@ require File.expand_path('../config/environment', __dir__)
 # Prevent database truncation if the environment is production
 abort("The Rails environment is running in production mode!") if Rails.env.production?
 require 'rspec/rails'
+require 'webmock/rspec'
 # Add additional requires below this line. Rails is not loaded until this point!
 
 # Requires supporting ruby files with custom matchers and macros, etc, in
@@ -67,10 +68,16 @@ RSpec.configure do |config|
   config.include FactoryBot::Syntax::Methods
 end
 
-# VCR.configure do |config|
-#   config.cassette_library_dir = 'spec/fixtures/vcr_cassettes'
-#   config.hook_into :webmock
-#   config.filter_sensitive_data('') { ENV[''] }
-#   config.default_cassette_options = { re_record_interval: 7.days }
-#   config.configure_rspec_metadata!
-# end
+VCR.configure do |config|
+  config.cassette_library_dir = 'spec/fixtures/vcr_cassettes'
+  config.hook_into :webmock
+  config.filter_sensitive_data('LOCATION_API_KEY') { ENV['LOCATION_API_KEY'] }
+  config.filter_sensitive_data('WEATHER_API_KEY') { ENV['WEATHER_API_KEY'] }
+  config.default_cassette_options = { re_record_interval: 7.days }
+  config.configure_rspec_metadata!
+end
+
+def check_hash_structure(hash, key, data_type)
+  expect(hash).to have_key(key)
+  expect(hash[key]).to be_a(data_type)
+end
