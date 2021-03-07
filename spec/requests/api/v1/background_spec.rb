@@ -62,7 +62,7 @@ RSpec.describe 'background request' do
   end
 
   it 'returns an error with a message if the location can\'t be found' do
-    VCR.use_cassette('not_a_city') do
+    VCR.use_cassette('not_a_city_background') do
       headers = {'CONTENT_TYPE' => 'application/json', 'ACCEPT' => 'application/json'}
       get '/api/v1/background?location=NOTAREALPLACE', headers: headers
 
@@ -77,7 +77,7 @@ RSpec.describe 'background request' do
   end
 
   it 'returns an error with a message if the external maps API call is unsuccessful' do
-    stub_request(:get, "").to_return(status: 503)
+    stub_request(:get, "https://api.unsplash.com/search/photos?client_id=#{ENV['BACKGROUND_API_KEY']}&per_page=1&query=portland,or").to_return(status: 503)
     headers = {'CONTENT_TYPE' => 'application/json', 'ACCEPT' => 'application/json'}
     get '/api/v1/background?location=portland,or', headers: headers
 

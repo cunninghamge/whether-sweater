@@ -107,7 +107,7 @@ RSpec.describe 'forecast request' do
   end
 
   it 'returns an error with a message if the external maps API call is unsuccessful' do
-    stub_request(:get, "https://mapquestapi.com/geocoding/v1/address?key=cfirg8LeM709ScP3wwqUpc3pWrJQZAHF&location=rutland,vt").to_return(status: 503)
+    stub_request(:get, "https://mapquestapi.com/geocoding/v1/address?key=#{ENV['LOCATION_API_KEY']}&location=rutland,vt").to_return(status: 503)
     headers = {'CONTENT_TYPE' => 'application/json', 'ACCEPT' => 'application/json'}
     get '/api/v1/forecast?location=rutland,vt', headers: headers
 
@@ -122,7 +122,7 @@ RSpec.describe 'forecast request' do
 
   it 'returns an error with a message if the external maps weather call is unsuccessful' do
     allow(WeatherFacade).to receive(:location_lookup).and_return({ lat: 44.058088, lng: -121.31515 })
-    stub_request(:get, "https://api.openweathermap.org/data/2.5/onecall?appid=aa14fa9f23bc86efe4c47ae998a1c3a9&exclude=minutely,alerts&lat=44.058088&lon=-121.31515&units=imperial").to_return(status: 503)
+    stub_request(:get, "https://api.openweathermap.org/data/2.5/onecall?appid=#{ENV['WEATHER_API_KEY']}&exclude=minutely,alerts&lat=44.058088&lon=-121.31515&units=imperial").to_return(status: 503)
 
     headers = {'CONTENT_TYPE' => 'application/json', 'ACCEPT' => 'application/json'}
     get '/api/v1/forecast?location=rutland,vt', headers: headers
