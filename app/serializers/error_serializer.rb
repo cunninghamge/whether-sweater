@@ -1,5 +1,5 @@
 class ErrorSerializer
   def self.serialize(error)
-    { errors: [error] }.to_json
+    { errors: [error].flatten }.to_json
   end
 end
