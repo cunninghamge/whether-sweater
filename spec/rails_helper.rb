@@ -67,17 +67,17 @@ RSpec.configure do |config|
   config.include FactoryBot::Syntax::Methods
 end
 
-# require 'webmock/rspec'
+require 'webmock/rspec'
 
-# VCR.configure do |config|
-#   config.cassette_library_dir = 'spec/fixtures/vcr_cassettes'
-#   config.hook_into :webmock
-#   config.filter_sensitive_data('LOCATION_API_KEY') { ENV['LOCATION_API_KEY'] }
-#   config.filter_sensitive_data('WEATHER_API_KEY') { ENV['WEATHER_API_KEY'] }
-#   config.filter_sensitive_data('PHOTO_API_KEY') { ENV['PHOTO_API_KEY'] }
-#   config.default_cassette_options = { re_record_interval: 7.days }
-#   config.configure_rspec_metadata!
-# end
+VCR.configure do |config|
+  config.cassette_library_dir = 'spec/fixtures/vcr_cassettes'
+  config.hook_into :webmock
+  config.filter_sensitive_data('LOCATION_API_KEY') { ENV['LOCATION_API_KEY'] }
+  config.filter_sensitive_data('WEATHER_API_KEY') { ENV['WEATHER_API_KEY'] }
+  config.filter_sensitive_data('BACKGROUND_API_KEY') { ENV['BACKGROUND_API_KEY'] }
+  config.default_cassette_options = { re_record_interval: 7.days }
+  config.configure_rspec_metadata!
+end
 
 def check_hash_structure(hash, key, data_type)
   expect(hash).to have_key(key)
