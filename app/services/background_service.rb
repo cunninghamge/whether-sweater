@@ -10,7 +10,7 @@ class BackgroundService
     def source_info
       {
         source: 'Unsplash',
-        source_url: "https://unsplash.com/?utm_source=weather-sweater&utm_medium=referral",
+        source_url: 'https://unsplash.com/?utm_source=weather-sweater&utm_medium=referral',
         append_to_user_url: '?utm_source=weather-sweater&utm_medium=referral'
       }
     end

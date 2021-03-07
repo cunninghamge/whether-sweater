@@ -3,6 +3,7 @@ require 'rails_helper'
 RSpec.describe Background do
   it 'exists and has attributes' do
     null = nil
+    location = 'portland,or'
     data = {
       "id": "pbr1-8LmvMg",
       "created_at": "2018-07-06T12:10:37-04:00",
@@ -66,7 +67,7 @@ RSpec.describe Background do
       },
       "tags": []
     }
-    background = Background.new(data)
+    background = Background.new(data, location, BackgroundService.source_info)
 
     expect(background).to be_a(Background)
     expect(background).to have_attributes(
@@ -77,6 +78,7 @@ RSpec.describe Background do
         source_url: "https://unsplash.com/?utm_source=weather-sweater&utm_medium=referral",
         photographer: data[:user][:name],
         photographer_url: "#{data[:user][:links][:html]}?utm_source=weather-sweater&utm_medium=referral"
+      }
     )
   end
 end
