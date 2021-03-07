@@ -1,4 +1,6 @@
 class Api::V1::UsersController < ApplicationController
+  before_action :reject_query_parameters
+
   def create
     user = User.new(user_params)
     if user.save

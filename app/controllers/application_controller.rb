@@ -10,8 +10,8 @@ class ApplicationController < ActionController::API
     render json: ErrorSerializer.serialize(error.message), status: :bad_request
   end
 
-  def render_invalid_parameters
-    render json: ErrorSerializer.serialize('location is required'), status: :bad_request
+  def render_invalid_parameters(error = 'location is required')
+    render json: ErrorSerializer.serialize(error), status: :bad_request
   end
 
   def render_not_found
@@ -30,5 +30,11 @@ class ApplicationController < ActionController::API
     content_type_json = request.content_type == 'application/json'
     accept_json = request.accept == 'application/json'
     render_invalid_headers unless content_type_json && accept_json
+  end
+
+  def reject_query_parameters
+    return if request.query_parameters.blank?
+
+    render_invalid_parameters('parameters must be sent in the body of the request')
   end
 end
