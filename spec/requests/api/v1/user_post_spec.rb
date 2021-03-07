@@ -7,7 +7,7 @@ RSpec.describe 'user post request' do
 
     expect(User.count).to eq(0)
 
-    post '/api/v1/users', headers: headers, params: JSON.generate(user: user_params)
+    post '/api/v1/users', headers: headers, params: JSON.generate(user_params)
     expect(response.status).to eq(201)
 
     expect(User.count).to eq(1)
@@ -34,7 +34,7 @@ RSpec.describe 'user post request' do
 
     expect(User.count).to eq(1)
 
-    post '/api/v1/users', headers: headers, params: JSON.generate(user: user_params)
+    post '/api/v1/users', headers: headers, params: JSON.generate(user_params)
 
     expect(User.count).to eq(1)
 
@@ -52,7 +52,7 @@ RSpec.describe 'user post request' do
 
     expect(User.count).to eq(0)
 
-    post '/api/v1/users', headers: headers, params: JSON.generate(user: user_params)
+    post '/api/v1/users', headers: headers, params: JSON.generate(user_params)
 
     expect(User.count).to eq(0)
 
@@ -70,7 +70,7 @@ RSpec.describe 'user post request' do
 
     expect(User.count).to eq(0)
 
-    post '/api/v1/users', headers: headers, params: JSON.generate(user: user_params)
+    post '/api/v1/users', headers: headers, params: JSON.generate(user_params)
 
     expect(User.count).to eq(0)
 
@@ -88,7 +88,7 @@ RSpec.describe 'user post request' do
 
     expect(User.count).to eq(0)
 
-    post '/api/v1/users', headers: headers, params: JSON.generate(user: user_params)
+    post '/api/v1/users', headers: headers, params: JSON.generate(user_params)
 
     expect(User.count).to eq(0)
 
@@ -107,7 +107,7 @@ RSpec.describe 'user post request' do
 
     expect(User.count).to eq(0)
 
-    post '/api/v1/users', headers: headers, params: JSON.generate(user: user_params)
+    post '/api/v1/users', headers: headers, params: JSON.generate(user_params)
 
     expect(User.count).to eq(0)
 
@@ -125,7 +125,7 @@ RSpec.describe 'user post request' do
 
     expect(User.count).to eq(0)
 
-    post "/api/v1/users?email=#{user_params[:email]}&password=#{user_params[:password]}&password_confirmation=#{user_params[:password_confirmation]}", headers: headers, params: JSON.generate(user: user_params)
+    post "/api/v1/users?email=#{user_params[:email]}&password=#{user_params[:password]}&password_confirmation=#{user_params[:password_confirmation]}", headers: headers, params: JSON.generate(user_params)
 
     expect(User.count).to eq(0)
 
@@ -144,7 +144,7 @@ RSpec.describe 'user post request' do
 
       expect(User.count).to eq(0)
 
-      post '/api/v1/users', headers: headers, params: JSON.generate(user: user_params)
+      post '/api/v1/users', headers: headers, params: JSON.generate(user_params)
 
       expect(User.count).to eq(0)
 
@@ -162,7 +162,7 @@ RSpec.describe 'user post request' do
 
       expect(User.count).to eq(0)
 
-      post '/api/v1/users', headers: headers, params: JSON.generate(user: user_params)
+      post '/api/v1/users', headers: headers, params: JSON.generate(user_params)
 
       expect(User.count).to eq(0)
 

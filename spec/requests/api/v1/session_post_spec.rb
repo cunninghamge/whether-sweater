@@ -8,7 +8,7 @@ RSpec.describe 'sessions post request' do
 
     login_params = { email: user.email, password: user.password }
 
-    post '/api/v1/sessions', headers: headers, params: JSON.generate(user: login_params)
+    post '/api/v1/sessions', headers: headers, params: JSON.generate(login_params)
 
     expect(response.status).to eq(200)
     expect(User.count).to eq(1)
@@ -31,7 +31,7 @@ RSpec.describe 'sessions post request' do
     user = create(:user, email: 'user@example.com')
     login_params = { email: 'wrong_email@example.com', password: user.password }
 
-    post '/api/v1/sessions', headers: headers, params: JSON.generate(user: login_params)
+    post '/api/v1/sessions', headers: headers, params: JSON.generate(login_params)
 
     expect(response.status).to eq(400)
     errors = JSON.parse(response.body, symbolize_names: true)
@@ -47,7 +47,7 @@ RSpec.describe 'sessions post request' do
     user = create(:user, password: 'password123')
     login_params = { email: user.email, password: 'wrong_password' }
 
-    post '/api/v1/sessions', headers: headers, params: JSON.generate(user: login_params)
+    post '/api/v1/sessions', headers: headers, params: JSON.generate(login_params)
 
     expect(response.status).to eq(400)
     errors = JSON.parse(response.body, symbolize_names: true)
@@ -63,7 +63,7 @@ RSpec.describe 'sessions post request' do
     user = create(:user)
     login_params = { password: user.password }
 
-    post '/api/v1/sessions', headers: headers, params: JSON.generate(user: login_params)
+    post '/api/v1/sessions', headers: headers, params: JSON.generate(login_params)
 
     expect(response.status).to eq(400)
     errors = JSON.parse(response.body, symbolize_names: true)
@@ -79,7 +79,7 @@ RSpec.describe 'sessions post request' do
     user = create(:user)
     login_params = { email: user.email }
 
-    post '/api/v1/sessions', headers: headers, params: JSON.generate(user: login_params)
+    post '/api/v1/sessions', headers: headers, params: JSON.generate(login_params)
 
     expect(response.status).to eq(400)
     errors = JSON.parse(response.body, symbolize_names: true)
@@ -96,7 +96,7 @@ RSpec.describe 'sessions post request' do
 
     login_params = { email: user.email, password: user.password }
 
-    post "/api/v1/sessions?email=#{login_params[:email]}&password=#{login_params[:password]}", headers: headers, params: JSON.generate(user: login_params)
+    post "/api/v1/sessions?email=#{login_params[:email]}&password=#{login_params[:password]}", headers: headers, params: JSON.generate(login_params)
 
     expect(response.status).to eq(400)
     errors = JSON.parse(response.body, symbolize_names: true)
@@ -112,7 +112,7 @@ RSpec.describe 'sessions post request' do
       user = create(:user)
       login_params = { email: user.email, password: user.password }
 
-      post '/api/v1/sessions', headers: headers, params: JSON.generate(user: login_params)
+      post '/api/v1/sessions', headers: headers, params: JSON.generate(login_params)
 
       expect(response.status).to eq(400)
       errors = JSON.parse(response.body, symbolize_names: true)
@@ -127,7 +127,7 @@ RSpec.describe 'sessions post request' do
       user = create(:user)
       login_params = { email: user.email, password: user.password }
 
-      post '/api/v1/sessions', headers: headers, params: JSON.generate(user: login_params)
+      post '/api/v1/sessions', headers: headers, params: JSON.generate(login_params)
 
       expect(response.status).to eq(400)
       errors = JSON.parse(response.body, symbolize_names: true)
