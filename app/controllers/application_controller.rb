@@ -26,6 +26,10 @@ class ApplicationController < ActionController::API
     render json: ErrorSerializer.serialize('invalid content type'), status: :bad_request
   end
 
+  def render_invalid_credentials
+    render json: ErrorSerializer.serialize('Invalid email or password'), status: :bad_request
+  end
+
   def validate_headers
     content_type_json = request.content_type == 'application/json'
     accept_json = request.accept == 'application/json'
@@ -35,6 +39,6 @@ class ApplicationController < ActionController::API
   def reject_query_parameters
     return if request.query_parameters.blank?
 
-    render_invalid_parameters('parameters must be sent in the body of the request')
+    render_invalid_parameters('user information must not be sent as query parameters')
   end
 end
