@@ -1,5 +1,5 @@
 class ApplicationController < ActionController::API
-  # before_action :validate_headers
+  before_action :validate_headers
 
   rescue_from ActionController::ParameterMissing, with: :render_missing_parameter
   rescue_from ArgumentError, with: :render_invalid_parameters
@@ -30,15 +30,15 @@ class ApplicationController < ActionController::API
     render json: ErrorSerializer.serialize('Invalid email or password'), status: :bad_request
   end
 
-  # def validate_headers
-  #   content_type_json = request.content_type == 'application/json'
-  #   accept_json = request.accept == 'application/json'
-  #   render_invalid_headers unless content_type_json && accept_json
-  # end
+  def validate_headers
+    content_type_json = request.content_type == 'application/json'
+    accept_json = request.accept == 'application/json'
+    render_invalid_headers unless content_type_json && accept_json
+  end
 
-  # def reject_query_parameters
-  #   return if request.query_parameters.blank?
-  #
-  #   render_invalid_parameters('user information must not be sent as query parameters')
-  # end
+  def reject_query_parameters
+    return if request.query_parameters.blank?
+
+    render_invalid_parameters('user information must not be sent as query parameters')
+  end
 end
