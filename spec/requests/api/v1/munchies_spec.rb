@@ -6,7 +6,7 @@ RSpec.describe 'munchies request' do
     end_location = 'pueblo,co'
     food = 'hamburger'
 
-    get "/api/v1/munchies?start=#{start_location}&destination=#{end_location},co&food=#{food}"
+    get "/api/v1/munchies?start=#{start_location}&destination=#{end_location}&food=#{food}"
 
     expect(response.status).to eq(200)
 
