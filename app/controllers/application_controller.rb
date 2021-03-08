@@ -1,5 +1,5 @@
 class ApplicationController < ActionController::API
-  before_action :validate_headers
+  # before_action :validate_headers
 
   rescue_from ActionController::ParameterMissing, with: :render_missing_parameter
   rescue_from ArgumentError, with: :render_invalid_parameters
