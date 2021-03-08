@@ -2,7 +2,7 @@ class CurrentWeatherService
   class << self
     def call(destination)
       response = conn.get do |req|
-        req.params[:q] = destination
+        req.params[:q] = destination.split(',').first
       end
       body = JSON.parse(response.body, symbolize_names: true)
       body.slice(:weather, :main)
