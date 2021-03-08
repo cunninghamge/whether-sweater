@@ -2,11 +2,12 @@ require 'rails_helper'
 
 RSpec.describe 'munchies request' do
   it 'returns a restaurant in a destination that will be open at the time of arrival' do
+    headers = {'CONTENT_TYPE' => 'application/json', 'ACCEPT' => 'application/json'}
     start_location = 'denver,co'
     end_location = 'pueblo,co'
     food = 'hamburger'
 
-    get "/api/v1/munchies?start=#{start_location}&destination=#{end_location}&food=#{food}"
+    get "/api/v1/munchies?start=#{start_location}&destination=#{end_location}&food=#{food}", headers: headers
 
     expect(response.status).to eq(200)
 
