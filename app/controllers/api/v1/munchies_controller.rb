@@ -3,8 +3,10 @@ class Api::V1::MunchiesController < ApplicationController
     route_time = route_time(munchie_params)
     arrival_time = Time.now + route_time[:route][:realTime]
     travel_time = route_time[:route][:formattedTime]
-    restaurant_info = restaurant(munchie_params, arrival_time)
-    forecast = forecast(params[:destination])
+    restaurant_info = restaurant(munchie_params, arrival_time).slice(:name, :location)
+    forecast_info = forecast(params[:destination]).slice(:weather, :main)
+    munchie = Munchie.new(params[:destination], travel_time, forecast_info, restaurant_info)
+    render json: MunchieSerializer.new(munchie)
   end
 
   private
@@ -31,7 +33,7 @@ class Api::V1::MunchiesController < ApplicationController
       req.params[:open_at] = arrival_time.to_i
       req.headers[:Authorization] = "Bearer #{ENV['YELP_API_KEY']}"
     end
-    JSON.parse(response.body, symbolize_names: true)
+    JSON.parse(response.body, symbolize_names: true)[:businesses][0]
   end
 
   def forecast(destination)
