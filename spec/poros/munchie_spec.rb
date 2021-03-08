@@ -6,11 +6,12 @@ RSpec.describe Munchie do
     travel_time = '01:44:22'
     forecast = {
       weather: [
-        {id: 804,
+        {
+          id: 804,
           main: "Clouds",
           description: "overcast clouds",
           icon: "04d"
-          }
+        }
       ],
       main:  {
         temp: 82.67,
@@ -38,10 +39,10 @@ RSpec.describe Munchie do
 
     expect(munchie).to be_a(Munchie)
     expect(munchie).to have_attributes(
-      destination_city: destination.titleize,
-      travel_time: '1 hours, 44 minutes',
+      destination_city: 'Pueblo, CO',
+      travel_time: '1 hour, 44 minutes',
       forecast: {
-        summary: forecast[:weather][:description],
+        summary: forecast[:weather][0][:description],
         temperature: forecast[:main][:temp]
       },
       restaurant: {
