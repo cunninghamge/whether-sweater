@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe 'munchies request' do
   it 'returns a restaurant in a destination that will be open at the time of arrival' do
     start_location = 'denver,co'
-    destination = 'pueblo,co'
+    end_location = 'pueblo,co'
     food = 'hamburger'
 
     get "/api/v1/munchies?start=#{start_location}&destination=#{end_location},co&food=#{food}"

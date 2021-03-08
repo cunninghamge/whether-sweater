@@ -5,6 +5,7 @@ Rails.application.routes.draw do
       get 'background', to: 'background#show'
       post 'sessions', to: 'sessions#create'
       resources :users, only: [:create]
+      get 'munchies', to: 'munchies#show'
     end
   end
 end
