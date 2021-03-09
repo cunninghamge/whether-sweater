@@ -1,10 +1,14 @@
 class RoadTripFacade
   def self.road_trip(params)
     trip_info = TripService.call(params)
-    destination_coordinates = trip_info[:route][:locations][1][:latLng]
-    arrival_time = trip_info[:route][:time]
-    forecast = arrival_forecast(destination_coordinates, arrival_time)
-    RoadTrip.new(params, trip_info[:route][:formattedTime], forecast)
+    if trip_info[:info][:messages].empty?
+      destination_coordinates = trip_info[:route][:locations][1][:latLng]
+      arrival_time = trip_info[:route][:time]
+      forecast = arrival_forecast(destination_coordinates, arrival_time)
+      trip = RoadTrip.new(params, trip_info[:route][:formattedTime], forecast)
+    else
+      RoadTrip.new(params)
+    end
   end
 
   def self.arrival_forecast(coordinates, arrival_time)

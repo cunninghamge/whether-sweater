@@ -54,20 +54,22 @@ RSpec.describe 'road trip' do
   end
 
   it 'can handle impossible road trips' do
-    headers = {'CONTENT_TYPE' => 'application/json', 'ACCEPT' => 'application/json'}
-    user = create(:user)
-    trip_params = {
-      origin: 'Denver, CO',
-      destination: 'Berlin, DEU',
-      api_key: user.api_key
-    }
+    VCR.use_cassette('impossible_trip') do
+      headers = {'CONTENT_TYPE' => 'application/json', 'ACCEPT' => 'application/json'}
+      user = create(:user)
+      trip_params = {
+        origin: 'Denver, CO',
+        destination: 'Berlin, DEU',
+        api_key: user.api_key
+      }
 
-    post '/api/v1/road_trip', headers: headers, params: JSON.generate(trip_params)
+      post '/api/v1/road_trip', headers: headers, params: JSON.generate(trip_params)
 
-    expect(response.status).to eq(200)
-    data = JSON.parse(response.body, symbolize_names: true)
-    expect(data[:data][:attributes][:travel_time]).to eq('impossible')
-    expect(data[:data][:attributes][:weather_at_eta]).to be_empty
+      expect(response.status).to eq(200)
+      data = JSON.parse(response.body, symbolize_names: true)
+      expect(data[:data][:attributes][:travel_time]).to eq('impossible')
+      expect(data[:data][:attributes][:weather_at_eta]).to be_empty
+    end
   end
 
   it 'returns an error if the origin is missing' do
