@@ -16,16 +16,15 @@ class RoadTrip
     "#{time[0]} #{'hour'.pluralize(time[0])}, #{time[1]} #{'minute'.pluralize(time[1])}"
   end
 
-
   def weather_at_eta
     return {} if @forecast.nil?
 
     weather = { conditions: @forecast[:weather][0][:description] }
-    if @forecast[:temp].is_a?(Hash)
-      weather[:temperature] = @forecast[:temp][:day]
-    else
-      weather[:temperature] = @forecast[:temp]
-    end
+    weather[:temperature] = if @forecast[:temp].is_a?(Hash)
+                              @forecast[:temp][:day]
+                            else
+                              @forecast[:temp]
+                            end
     weather
   end
 end

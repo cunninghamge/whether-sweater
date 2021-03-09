@@ -27,7 +27,7 @@ class ApplicationController < ActionController::API
   end
 
   def render_invalid_credentials
-    render json: ErrorSerializer.serialize('Invalid email or password'), status: 401
+    render json: ErrorSerializer.serialize('Invalid email or password'), status: :unauthorized
   end
 
   def validate_headers
