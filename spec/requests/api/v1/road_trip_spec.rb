@@ -2,34 +2,55 @@ require 'rails_helper'
 
 RSpec.describe 'road trip' do
   it 'gets road trip info' do
-    headers = {'CONTENT_TYPE' => 'application/json', 'ACCEPT' => 'application/json'}
-    user = create(:user)
-    trip_params = {
-      origin: 'Denver,CO',
-      destination: 'Seattle,WA',
-      api_key: user.api_key
-    }
+    VCR.use_cassette('denver_to_seattle') do
+      headers = {'CONTENT_TYPE' => 'application/json', 'ACCEPT' => 'application/json'}
+      user = create(:user)
+      trip_params = {
+        origin: 'Denver,CO',
+        destination: 'Seattle,WA',
+        api_key: user.api_key
+      }
 
-    post '/api/v1/road_trip', headers: headers, params: JSON.generate(trip_params)
+      post '/api/v1/road_trip', headers: headers, params: JSON.generate(trip_params)
 
-    expect(response.status).to eq(200)
-    data = JSON.parse(response.body, symbolize_names: true)
-    expect(data).to be_a(Hash)
-    check_hash_structure(data, :data, Hash)
-    check_hash_structure(data[:data], :id, NilClass)
-    check_hash_structure(data[:data], :type, String)
-    expect(data[:data][:type]).to eq('roadtrip')
-    check_hash_structure(data[:data], :attributes, Hash)
-    check_hash_structure(data[:data][:attributes], :start_city, String)
-    expect(data[:data][:attributes][:start_city]).to eq(trip_params[:origin])
-    check_hash_structure(data[:data][:attributes], :end_city, String)
-    expect(data[:data][:attributes][:end_city]).to eq(trip_params[:destination])
-    check_hash_structure(data[:data][:attributes], :travel_time, String)
-    expect(data[:data][:attributes][:travel_time]).to match(/\d+ hours, \d+ minutes/)
-    check_hash_structure(data[:data][:attributes], :weather_at_eta, Hash)
-    weather = data[:data][:attributes][:weather_at_eta]
-    check_hash_structure(weather, :temperature, Numeric)
-    check_hash_structure(weather, :conditions, String)
+      expect(response.status).to eq(200)
+      data = JSON.parse(response.body, symbolize_names: true)
+      expect(data).to be_a(Hash)
+      check_hash_structure(data, :data, Hash)
+      check_hash_structure(data[:data], :id, NilClass)
+      check_hash_structure(data[:data], :type, String)
+      expect(data[:data][:type]).to eq('roadtrip')
+      check_hash_structure(data[:data], :attributes, Hash)
+      check_hash_structure(data[:data][:attributes], :start_city, String)
+      expect(data[:data][:attributes][:start_city]).to eq(trip_params[:origin])
+      check_hash_structure(data[:data][:attributes], :end_city, String)
+      expect(data[:data][:attributes][:end_city]).to eq(trip_params[:destination])
+      check_hash_structure(data[:data][:attributes], :travel_time, String)
+      expect(data[:data][:attributes][:travel_time]).to match(/\d+ hours, \d+ minutes/)
+      check_hash_structure(data[:data][:attributes], :weather_at_eta, Hash)
+      weather = data[:data][:attributes][:weather_at_eta]
+      check_hash_structure(weather, :temperature, Numeric)
+      check_hash_structure(weather, :conditions, String)
+    end
+  end
+
+  it 'can handle road trips with travel time greater than 48 hours' do
+    VCR.use_cassette('ak_to_panama') do
+      headers = {'CONTENT_TYPE' => 'application/json', 'ACCEPT' => 'application/json'}
+      user = create(:user)
+      trip_params = {
+        origin: 'Prudhoe Bay, AK',
+        destination: 'Panama City, Panama',
+        api_key: user.api_key
+      }
+
+      post '/api/v1/road_trip', headers: headers, params: JSON.generate(trip_params)
+
+      expect(response.status).to eq(200)
+      data = JSON.parse(response.body, symbolize_names: true)
+      weather = data[:data][:attributes][:weather_at_eta]
+      check_hash_structure(weather, :temperature, Numeric)
+    end
   end
 
   it 'can handle impossible road trips' do
