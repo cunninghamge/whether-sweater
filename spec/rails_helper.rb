@@ -90,3 +90,7 @@ def check_hash_structure(hash, key, data_type)
   expect(hash).to have_key(key)
   expect(hash[key]).to be_a(data_type)
 end
+
+def local_time(time, offset)
+  Time.at(time).getlocal(offset).to_s
+end
