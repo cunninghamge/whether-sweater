@@ -33,7 +33,7 @@ RSpec.describe 'sessions post request' do
 
     post '/api/v1/sessions', headers: headers, params: JSON.generate(login_params)
 
-    expect(response.status).to eq(400)
+    expect(response.status).to eq(401)
     errors = JSON.parse(response.body, symbolize_names: true)
     expect(errors).to be_a(Hash)
     expect(errors.keys).to match_array(%i[errors])
@@ -49,7 +49,7 @@ RSpec.describe 'sessions post request' do
 
     post '/api/v1/sessions', headers: headers, params: JSON.generate(login_params)
 
-    expect(response.status).to eq(400)
+    expect(response.status).to eq(401)
     errors = JSON.parse(response.body, symbolize_names: true)
     expect(errors).to be_a(Hash)
     expect(errors.keys).to match_array(%i[errors])
@@ -65,7 +65,7 @@ RSpec.describe 'sessions post request' do
 
     post '/api/v1/sessions', headers: headers, params: JSON.generate(login_params)
 
-    expect(response.status).to eq(400)
+    expect(response.status).to eq(401)
     errors = JSON.parse(response.body, symbolize_names: true)
     expect(errors).to be_a(Hash)
     expect(errors.keys).to match_array(%i[errors])
@@ -81,7 +81,7 @@ RSpec.describe 'sessions post request' do
 
     post '/api/v1/sessions', headers: headers, params: JSON.generate(login_params)
 
-    expect(response.status).to eq(400)
+    expect(response.status).to eq(401)
     errors = JSON.parse(response.body, symbolize_names: true)
     expect(errors).to be_a(Hash)
     expect(errors.keys).to match_array(%i[errors])

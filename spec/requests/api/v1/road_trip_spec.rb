@@ -165,7 +165,7 @@ RSpec.describe 'road trip' do
   end
 
   it 'returns an error if an external API call is unsuccessful' do
-    stub(:get, "").to_return(status: 503)
+    stub_request(:get, "http://www.mapquestapi.com/directions/v2/route?from=Denver,CO&key=#{ENV['LOCATION_API_KEY']}&to=Seattle,WA").to_return(status: 503)
     headers = {'CONTENT_TYPE' => 'application/json', 'ACCEPT' => 'application/json'}
     user = create(:user)
     trip_params = {
@@ -176,7 +176,7 @@ RSpec.describe 'road trip' do
 
     post '/api/v1/road_trip', headers: headers, params: JSON.generate(trip_params)
 
-    expect(response.status).to eq(400)
+    expect(response.status).to eq(503)
     errors = JSON.parse(response.body, symbolize_names: true)
     expect(errors).to be_a(Hash)
     expect(errors.keys).to match_array(%i[errors])
