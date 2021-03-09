@@ -5,7 +5,7 @@ class RoadTripFacade
       destination_coordinates = trip_info[:route][:locations][1][:latLng]
       arrival_time = trip_info[:route][:time]
       forecast = arrival_forecast(destination_coordinates, arrival_time)
-      trip = RoadTrip.new(params, trip_info[:route][:formattedTime], forecast)
+      RoadTrip.new(params, trip_info[:route][:formattedTime], forecast)
     else
       RoadTrip.new(params)
     end

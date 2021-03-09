@@ -118,7 +118,7 @@ RSpec.describe 'road trip' do
 
     post '/api/v1/road_trip', headers: headers, params: JSON.generate(trip_params)
 
-    expect(response.status).to eq(400)
+    expect(response.status).to eq(401)
     errors = JSON.parse(response.body, symbolize_names: true)
     expect(errors).to be_a(Hash)
     expect(errors.keys).to match_array(%i[errors])
@@ -137,7 +137,7 @@ RSpec.describe 'road trip' do
 
     post '/api/v1/road_trip', headers: headers, params: JSON.generate(trip_params)
 
-    expect(response.status).to eq(400)
+    expect(response.status).to eq(401)
     errors = JSON.parse(response.body, symbolize_names: true)
     expect(errors).to be_a(Hash)
     expect(errors.keys).to match_array(%i[errors])
