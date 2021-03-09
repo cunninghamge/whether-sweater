@@ -1,4 +1,15 @@
-class CurrentWeather
+class CurrentWeather < WeatherSnapshot
+  attr_reader :datetime,
+              :sunrise,
+              :sunset,
+              :temperature,
+              :feels_like,
+              :humidity,
+              :uvi,
+              :visibility,
+              :conditions,
+              :icon
+
   def initialize(data, timezone_offset)
     @datetime = local_time(data[:dt], timezone_offset)
     @sunrise = local_time(data[:sunrise], timezone_offset)
@@ -8,11 +19,6 @@ class CurrentWeather
     @humidity = data[:humidity]
     @uvi = data[:uvi]
     @visibility = data[:visibility]
-    @conditions = data[:weather][0][:description]
-    @icon = data[:weather][0][:icon]
-  end
-
-  def local_time(time, timezone_offset)
-    Time.at(time).getlocal(timezone_offset).to_s
+    super
   end
 end
