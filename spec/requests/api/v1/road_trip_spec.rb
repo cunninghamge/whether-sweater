@@ -142,7 +142,7 @@ RSpec.describe 'road trip' do
   end
 
   it 'returns an error if an external API call is unsuccessful' do
-    stub(:get "").to_return(status: 503)
+    stub(:get, "").to_return(status: 503)
     headers = {'CONTENT_TYPE' => 'application/json', 'ACCEPT' => 'application/json'}
     user = create(:user)
     trip_params = {
