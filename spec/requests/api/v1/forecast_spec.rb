@@ -65,34 +65,6 @@ RSpec.describe 'forecast request' do
     end
   end
 
-  describe 'returns an error if the headers are missing' do
-    it 'content type' do
-      headers = {'ACCEPT' => 'application/json'}
-      get '/api/v1/forecast?location=denver,co', headers: headers
-
-      expect(response.status).to eq(400)
-      errors = JSON.parse(response.body, symbolize_names: true)
-
-      expect(errors).to be_a(Hash)
-      expect(errors.keys).to match_array(%i[errors])
-      check_hash_structure(errors, :errors, Array)
-      expect(errors[:errors][0]).to be_a(String)
-    end
-
-    it 'accept' do
-      headers = {'CONTENT_TYPE' => 'application/json'}
-      get '/api/v1/forecast?location=denver,co', headers: headers
-
-      expect(response.status).to eq(400)
-      errors = JSON.parse(response.body, symbolize_names: true)
-
-      expect(errors).to be_a(Hash)
-      expect(errors.keys).to match_array(%i[errors])
-      check_hash_structure(errors, :errors, Array)
-      expect(errors[:errors][0]).to be_a(String)
-    end
-  end
-
   it 'returns an error with a message if a location param is not included' do
     headers = {'CONTENT_TYPE' => 'application/json', 'ACCEPT' => 'application/json'}
     get '/api/v1/forecast', headers: headers
