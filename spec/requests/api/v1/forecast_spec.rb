@@ -121,7 +121,7 @@ RSpec.describe 'forecast request' do
   end
 
   it 'returns an error with a message if the external maps weather call is unsuccessful' do
-    allow(WeatherFacade).to receive(:location_lookup).and_return({ lat: 44.058088, lng: -121.31515 })
+    allow(WeatherFacade).to receive(:geocode).and_return({ lat: 44.058088, lng: -121.31515 })
     stub_request(:get, "https://api.openweathermap.org/data/2.5/onecall?appid=#{ENV['WEATHER_API_KEY']}&exclude=minutely,alerts&lat=44.058088&lon=-121.31515&units=imperial").to_return(status: 503)
 
     headers = {'CONTENT_TYPE' => 'application/json', 'ACCEPT' => 'application/json'}
