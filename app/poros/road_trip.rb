@@ -20,11 +20,7 @@ class RoadTrip
     return {} if @forecast.nil?
 
     weather = { conditions: @forecast[:weather][0][:description] }
-    weather[:temperature] = if @forecast[:temp].is_a?(Hash)
-                              @forecast[:temp][:day]
-                            else
-                              @forecast[:temp]
-                            end
+    weather[:temperature] = @forecast[:temp].try(:dig, :day) || @forecast[:temp]
     weather
   end
 end

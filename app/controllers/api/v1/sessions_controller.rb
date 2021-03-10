@@ -6,7 +6,7 @@ class Api::V1::SessionsController < ApplicationController
     if user&.authenticate(params[:password])
       render json: UserSerializer.new(user)
     else
-      render_invalid_credentials
+      render_invalid_credentials('Invalid email or password')
     end
   end
 end

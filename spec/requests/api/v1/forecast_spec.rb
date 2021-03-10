@@ -65,34 +65,6 @@ RSpec.describe 'forecast request' do
     end
   end
 
-  describe 'returns an error if the headers are missing' do
-    it 'content type' do
-      headers = {'ACCEPT' => 'application/json'}
-      get '/api/v1/forecast?location=denver,co', headers: headers
-
-      expect(response.status).to eq(400)
-      errors = JSON.parse(response.body, symbolize_names: true)
-
-      expect(errors).to be_a(Hash)
-      expect(errors.keys).to match_array(%i[errors])
-      check_hash_structure(errors, :errors, Array)
-      expect(errors[:errors][0]).to be_a(String)
-    end
-
-    it 'accept' do
-      headers = {'CONTENT_TYPE' => 'application/json'}
-      get '/api/v1/forecast?location=denver,co', headers: headers
-
-      expect(response.status).to eq(400)
-      errors = JSON.parse(response.body, symbolize_names: true)
-
-      expect(errors).to be_a(Hash)
-      expect(errors.keys).to match_array(%i[errors])
-      check_hash_structure(errors, :errors, Array)
-      expect(errors[:errors][0]).to be_a(String)
-    end
-  end
-
   it 'returns an error with a message if a location param is not included' do
     headers = {'CONTENT_TYPE' => 'application/json', 'ACCEPT' => 'application/json'}
     get '/api/v1/forecast', headers: headers
@@ -149,7 +121,7 @@ RSpec.describe 'forecast request' do
   end
 
   it 'returns an error with a message if the external maps weather call is unsuccessful' do
-    allow(WeatherFacade).to receive(:location_lookup).and_return({ lat: 44.058088, lng: -121.31515 })
+    allow(WeatherFacade).to receive(:geocode).and_return({ lat: 44.058088, lng: -121.31515 })
     stub_request(:get, "https://api.openweathermap.org/data/2.5/onecall?appid=#{ENV['WEATHER_API_KEY']}&exclude=minutely,alerts&lat=44.058088&lon=-121.31515&units=imperial").to_return(status: 503)
 
     headers = {'CONTENT_TYPE' => 'application/json', 'ACCEPT' => 'application/json'}
