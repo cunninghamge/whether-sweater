@@ -70,7 +70,7 @@ ___
   }
   ```
 
-  ___
+___
 - `GET /api/v1/forecast`: gets a detailed forecast for the specified location, including current weather, hourly forecasts for the next 8 hours, and daily forecasts for the next 5 days
   - required parameters: `location`
   - example request: http://localhost:3000/api/v1/forecast?location=asheville,nc
@@ -128,13 +128,13 @@ ___
     }
   ```
 
-  ___
+___
 - `GET /api/v1/background`: fetches a background image for a front-end page displaying details about a city
 
   - required parameters: `location`
   - example request: http://localhost:3000/api/v1/background?location=asheville,nc
   - example response:
-  ```
+```
   {
       "data": {
         "id": null,
@@ -158,15 +158,15 @@ ___
 
   - required information (*must be sent as JSON in the body of the request*): <br>`api_key, origin, destination`
   - example request: http://localhost:3000/api/v1/road_trip
-  ```
+```
   {
       "api_key": "UAUMJpJ9eEu1A4dr7ZWrMjij",
       "origin": "Boise, ID",
       "destination": "San Antonio, TX"
   }
-  ```
+```
   - example response:
-  ```
+```
   {
       "data": {
         "id": null,
