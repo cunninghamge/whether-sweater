@@ -20,7 +20,8 @@ module Errorable
     return if request.query_parameters.blank?
 
     render_invalid_parameters(
-      ["data must be sent in the body of the request",
-      "do not send sensitive data as query parameters"])
+      ['data must be sent in the body of the request',
+       'do not send sensitive data as query parameters']
+    )
   end
 end
